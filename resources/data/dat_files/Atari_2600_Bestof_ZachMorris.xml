@@ -123,8 +123,8 @@
 			<emu_downloadpath>default</emu_downloadpath>
 			<emu_postdlaction>unzip_rom</emu_postdlaction>
 			<emu_comment>The current landscape of gaming consoles would have been vastly different if it were not for the introduction of the Atari 2600 in 1977. Though it initially offered only nine games at launch, its library only continued to grow as time went on and other potential competitors backed off.[CR][CR]The Atari 2600 is also the one console that could arguably be claimed as the herald of modern gaming’s success and a stark reminder of economic collapse’s ability to topple even the mightiest; the crash of 1983 was at least partially due to the constant churn of low quality games being produced for the console.[CR][CR]But that Atari 2600 lays claim to its fair share of games that still stand as pillars within their respective genres. So far removed from its heyday, it might be easy to forget exactly which these were and are.[CR][CR]Thank goodness for this definitive list of the Best Atari 2600 games of all time…</emu_comment>
-			<emu_thumb>special://home/addons/plugin.program.iarlsnes/resources/skins/Default/media/bestof_2600.jpg</emu_thumb>
-			<emu_banner>special://home/addons/plugin.program.iarlsnes/resources/skins/Default/media/bestof_2600_banner.jpg</emu_banner>
+			<emu_thumb>special://home/addons/plugin.program.iarlnes/resources/skins/Default/media/bestof_2600.jpg</emu_thumb>
+			<emu_banner>special://home/addons/plugin.program.iarlnes/resources/skins/Default/media/bestof_2600_banner.jpg</emu_banner>
 			<emu_fanart>http://i.imgur.com/3tTLaSl.jpg</emu_fanart>
 			<emu_logo>https://upload.wikimedia.org/wikipedia/en/thumb/0/08/Atari_2600_logo.svg/330px-Atari_2600_logo.svg.png</emu_logo>
 			<emu_trailer>FguRA3WO0jQ</emu_trailer>
