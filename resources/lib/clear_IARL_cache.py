@@ -1,7 +1,7 @@
 import xbmcaddon, xbmcgui
 
-addon = xbmcaddon.Addon(id='plugin.program.iarlsnes')
-current_setting = addon.getSetting('iarlsnes_setting_clear_cache_value')
+addon = xbmcaddon.Addon(id='plugin.program.iarlnes')
+current_setting = addon.getSetting('iarlnes_setting_clear_cache_value')
 
 if 'false'.lower() in current_setting.lower():
 	current_dialog = xbmcgui.Dialog()
@@ -10,6 +10,6 @@ if 'false'.lower() in current_setting.lower():
 	if ret1 == 0:
 		pass
 	else:
-		addon.setSetting(id='iarlsnes_setting_clear_cache_value',value='true')
+		addon.setSetting(id='iarlnes_setting_clear_cache_value',value='true')
 		ok_ret = current_dialog.ok('Complete','The cache was cleared.')
 		print 'IARL:  Cache setting set to true'
