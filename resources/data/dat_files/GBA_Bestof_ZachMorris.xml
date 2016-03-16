@@ -123,8 +123,8 @@
 			<emu_downloadpath>default</emu_downloadpath>
 			<emu_postdlaction>unzip_rom</emu_postdlaction>
 			<emu_comment>Get Advanced![CR][CR]The Game Boy Advance was a tiny powerhouse that single-handedly defined portable gaming in the first half of the ‘00s. During its years of absolute handheld dominance, the GBA produced some of the best games ever to hit the portable market. Many of them were ports of Super Nintendo games (which we’re mostly leaving out of this collection), but plenty were able to stand up to the best of other consoles on their own merits. With so much quality to pick from, it’s not easy to single out the 50 best. But we pulled it off, and here are the results...</emu_comment>
-			<emu_thumb>special://home/addons/plugin.program.iarlsnessnes/resources/skins/Default/media/bestof_GBA.jpg</emu_thumb>
-			<emu_banner>special://home/addons/plugin.program.iarlsnessnes/resources/skins/Default/media/bestof_GBA_banner.jpg</emu_banner>
+			<emu_thumb>special://home/addons/plugin.program.iarlsnes/resources/skins/Default/media/bestof_GBA.jpg</emu_thumb>
+			<emu_banner>special://home/addons/plugin.program.iarlsnes/resources/skins/Default/media/bestof_GBA_banner.jpg</emu_banner>
 			<emu_fanart>http://arcadesushi.com/files/2013/01/GBA-Collage.jpg</emu_fanart>
 			<emu_logo>https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Gameboy_advance_logo.svg/797px-Gameboy_advance_logo.svg.png</emu_logo>
 			<emu_trailer>Yf4V44VyZeo</emu_trailer>
