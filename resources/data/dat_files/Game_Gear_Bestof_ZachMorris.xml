@@ -123,8 +123,8 @@
 			<emu_downloadpath>default</emu_downloadpath>
 			<emu_postdlaction>unzip_rom</emu_postdlaction>
 			<emu_comment>Have six AA batteries, will play[CR][CR]The Sega Game Gear. With its 8-bit processor and bright color screen, it was basically the Sega Master System in your hands. How many batteries did we suck dry playing Sonic, Madden, and Road Rash on the bus or in the car, or in the dark when we were supposed to be sleeping? You couldn't do that on a Game Boy![CR][CR]We’ve assembled a list and checked it twice, ordering all our favorite games for Sega’s beefy handheld. Take a look, and tell us your favorite games in the comments below. Remember, if you’re feeling nostalgic, some of these classics are available on the 3DS Virtual Console.</emu_comment>
-			<emu_thumb>special://home/addons/plugin.program.iarlsnes/resources/skins/Default/media/bestof_GG.jpg</emu_thumb>
-			<emu_banner>special://home/addons/plugin.program.iarlsnes/resources/skins/Default/media/bestof_GG_banner.jpg</emu_banner>
+			<emu_thumb>special://home/addons/plugin.program.iarlnes/resources/skins/Default/media/bestof_GG.jpg</emu_thumb>
+			<emu_banner>special://home/addons/plugin.program.iarlnes/resources/skins/Default/media/bestof_GG_banner.jpg</emu_banner>
 			<emu_fanart>http://i.imgur.com/Zj93Xmq.jpg</emu_fanart>
 			<emu_logo>https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Game_gear_us-jp_logo.svg/347px-Game_gear_us-jp_logo.svg.png</emu_logo>
 			<emu_trailer>EVQ1fP7dNEE</emu_trailer>
