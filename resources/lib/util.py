@@ -9,11 +9,11 @@ from descriptionparserfactory import *
 # CONSTANTS AND GLOBALS #
 #
 
-iarl_plugin_name = 'plugin.program.iarl'
+iarl_plugin_name = 'plugin.program.iarlsnes'
 debugging_enabled = True
 LOG_LEVEL_INFO = 'LOG_LEVEL_INFO'
 
-__addon__ = xbmcaddon.Addon(id='%s' %iarl_plugin_name)
+__addon__ = xbmcaddon.Addon(id='%s' %iarlsnes_plugin_name)
 __language__ = __addon__.getLocalizedString
 
 
