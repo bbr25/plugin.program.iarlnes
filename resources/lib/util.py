@@ -9,11 +9,11 @@ from descriptionparserfactory import *
 # CONSTANTS AND GLOBALS #
 #
 
-iarl_plugin_name = 'plugin.program.iarlsnes'
+iarlsnes_plugin_name = 'plugin.program.iarlsnessnes'
 debugging_enabled = True
 LOG_LEVEL_INFO = 'LOG_LEVEL_INFO'
 
-__addon__ = xbmcaddon.Addon(id='%s' %iarlsnes_plugin_name)
+__addon__ = xbmcaddon.Addon(id='%s' %iarlsnessnes_plugin_name)
 __language__ = __addon__.getLocalizedString
 
 
@@ -126,7 +126,7 @@ def localize(id):
 def getAddonDataPath():
 	
 	path = ''
-	path = xbmc.translatePath('special://profile/addon_data/%s' %(iarl_plugin_name))
+	path = xbmc.translatePath('special://profile/addon_data/%s' %(iarlsnes_plugin_name))
 		
 	if not os.path.exists(path):
 		try:
@@ -188,7 +188,7 @@ def update_addonxml(option):
 	else:
 		ok_ret = current_dialog.ok('Complete','The addon was updated.[CR]You may have to restart Kodi for the settings to take effect.')
 		update_xml_header(getAddonInstallPath(),'/addon.xml','provides',option)
-		print 'IARL:  Addon provides was updated to ' + option
+		print 'iarlsnes:  Addon provides was updated to ' + option
 
 def getAutoexecPath():	
 	return xbmc.translatePath('special://profile/autoexec.py')
@@ -202,7 +202,7 @@ def hide_busy_dialog():
         xbmc.sleep(100)
 
 def getTempDir():
-	tempDir = os.path.join(getAddonDataPath(), 'temp_iarl')
+	tempDir = os.path.join(getAddonDataPath(), 'temp_iarlsnes')
 	
 	try:
 		#check if folder exists
@@ -240,46 +240,46 @@ def initialize_userdata():
 
 	if len(addondata_files) > 0:
 		# show_busy_dialog()
-		print 'IARL:  Initializing XML Files'
+		print 'iarlsnes:  Initializing XML Files'
 		for file_name in addondata_files:
 			if file_name in userdata_files: #The file already exists in userdata
-				print 'IARL: '+file_name+' already exists, check version'
+				print 'iarlsnes: '+file_name+' already exists, check version'
 				addon_file_info = get_xml_header_version(os.path.join(addondata_xmldir,file_name))
 				userdata_file_info = get_xml_header_version(os.path.join(userdata_xmldir,file_name))
 				if addon_file_info['emu_version'][0] == userdata_file_info['emu_version'][0]: #Files are the same, delete addondata file
-					print 'IARL: '+file_name+' same version detected, deleting addondata file'
+					print 'iarlsnes: '+file_name+' same version detected, deleting addondata file'
 					os.remove(os.path.join(addondata_xmldir,file_name))
 				else:
 					current_dialog = xbmcgui.Dialog()
 					current_dialog.ok('New Version Found', 'New version '+addon_file_info['emu_version'][0]+' for the file:', addon_file_info['emu_name'][0], 'was detected.')
 					ret1 = current_dialog.select('Overwrite old file: '+addon_file_info['emu_name'][0]+' ?', ["Yes, Replace!", "Remind me later", "No, Never!"])
 					if ret1 == 0: #Yes, replace!
-						print 'IARL:  Copying new file '+file_name+' to userdata'
+						print 'iarlsnes:  Copying new file '+file_name+' to userdata'
 						copyFile(os.path.join(addondata_xmldir,file_name), os.path.join(userdata_xmldir,file_name))
 						if os.path.isfile(os.path.join(userdata_xmldir,file_name)): #Copy was successful, delete addondata file
 							os.remove(os.path.join(addondata_xmldir,file_name)) #Remove the file from the addondata folder
 						else:
-							print 'IARL Error, copying xml file failed.'
+							print 'iarlsnes Error, copying xml file failed.'
 					elif ret1 == 1: #Remind me later
-						print 'IARL:  XML File will not be copied at this time'
+						print 'iarlsnes:  XML File will not be copied at this time'
 					else: #No, delete the file
-						print 'IARL:  XML File will be deleted'
+						print 'iarlsnes:  XML File will be deleted'
 						os.remove(os.path.join(addondata_xmldir,file_name)) #Remove the file from the addondata folder
 			else: #The files does not yet exist in userdata
-				print 'IARL:  Copying new file '+file_name+' to userdata'
+				print 'iarlsnes:  Copying new file '+file_name+' to userdata'
 				copyFile(os.path.join(addondata_xmldir,file_name), os.path.join(userdata_xmldir,file_name))
 				if os.path.isfile(os.path.join(userdata_xmldir,file_name)): #Copy was successful, delete addondata file
 					os.remove(os.path.join(addondata_xmldir,file_name)) #Remove the file from the addondata folder
 				else:
-					print 'IARL Error, copying xml file failed.'
+					print 'iarlsnes Error, copying xml file failed.'
 		# hide_busy_dialog()
 
-def check_temp_folder_and_clean(iarl_options_dl_cache):
+def check_temp_folder_and_clean(iarlsnes_options_dl_cache):
 	current_path = getTempDir()
 	current_path_size = getFolderSize(current_path)
 
-	if current_path_size > iarl_options_dl_cache:
-		print 'Deleting IARL Cache'
+	if current_path_size > iarlsnes_options_dl_cache:
+		print 'Deleting iarlsnes Cache'
 		shutil.rmtree(current_path)
 
 	current_path = getTempDir()  #Remake the directory
@@ -295,10 +295,10 @@ def unhide_all_archives(plugin):
 			current_xml_path = current_xml_fileparts[0] + '/'
 			update_xml_header(current_xml_path,current_xml_filename,'emu_category',new_xml_category)
 
-	print 'IARL:  Unhide all archives completed'
+	print 'iarlsnes:  Unhide all archives completed'
 	plugin.clear_function_cache()
 
-def check_if_rom_exits(current_save_fname,current_path,iarl_setting_localfile_action):
+def check_if_rom_exits(current_save_fname,current_path,iarlsnes_setting_localfile_action):
 	
 	file_already_exists = False
 	do_not_download_flag = False
@@ -320,7 +320,7 @@ def check_if_rom_exits(current_save_fname,current_path,iarl_setting_localfile_ac
 
 	
 	if file_already_exists:
-		if 'Prompt'.lower() in iarl_setting_localfile_action.lower(): #Prompt if the file exists locally
+		if 'Prompt'.lower() in iarlsnes_setting_localfile_action.lower(): #Prompt if the file exists locally
 			current_dialog = xbmcgui.Dialog()
 			ret1 = current_dialog.select('The ROM already appears to exist.[CR]Re-Download and overwrite?', ['No','Yes'])
 
@@ -328,12 +328,12 @@ def check_if_rom_exits(current_save_fname,current_path,iarl_setting_localfile_ac
 				do_not_download_flag = True
 			else:
 				pass
-		elif 'Do Not ReDownload'.lower() in iarl_setting_localfile_action.lower(): #Do Not ReDownload the file
+		elif 'Do Not ReDownload'.lower() in iarlsnes_setting_localfile_action.lower(): #Do Not ReDownload the file
 			do_not_download_flag = True
-			print 'IARL:  File already exists, do not redownload'
+			print 'iarlsnes:  File already exists, do not redownload'
 		else: #Overwrite and ReDownload the file
 			do_not_download_flag = False
-			print 'IARL:  File already exists, but redownload and overwrite is selected'
+			print 'iarlsnes:  File already exists, but redownload and overwrite is selected'
 
 	return fname_found, do_not_download_flag
 
@@ -349,22 +349,22 @@ def check_for_warn(current_filename):
 	if 'img' in file_extension.lower():
 		iso_warn = True
 
-	if 'true' in __addon__.getSetting(id='iarl_setting_warn_chd').lower():
-		print __addon__.getSetting(id='iarl_setting_warn_chd')
+	if 'true' in __addon__.getSetting(id='iarlsnes_setting_warn_chd').lower():
+		print __addon__.getSetting(id='iarlsnes_setting_warn_chd')
 		if chd_warn:
 			current_dialog = xbmcgui.Dialog()
 			ret1 = current_dialog.yesno('Warning','Warning:  This ROM is in CHD Format[CR]It will have to be converted prior to use[CR]These files are also typically large[CR]Check addon settings and wiki for more info',nolabel='OK',yeslabel='OK! Stop showing this!')
 			print ret1
 			if ret1>0:
-				__addon__.setSetting(id='iarl_setting_warn_chd',value='false') #No longer show the warning
+				__addon__.setSetting(id='iarlsnes_setting_warn_chd',value='false') #No longer show the warning
 
-	if 'true' in __addon__.getSetting(id='iarl_setting_warn_iso').lower():
+	if 'true' in __addon__.getSetting(id='iarlsnes_setting_warn_iso').lower():
 		if iso_warn:
 			current_dialog = xbmcgui.Dialog()
 			ret1 = current_dialog.yesno('Warning','Warning:  This ROM is in ISO/IMG Format[CR]These files are also typically large!',nolabel='OK',yeslabel='OK! Stop showing this!')
 			print ret1
 			if ret1>0:
-				__addon__.setSetting(id='iarl_setting_warn_iso',value='false') #No longer show the warning
+				__addon__.setSetting(id='iarlsnes_setting_warn_iso',value='false') #No longer show the warning
 
 
 def getFolderSize(folder):
@@ -389,8 +389,8 @@ def getConfigXmlPath():
 
 def advanced_setting_action_clear_cache(plugin):
 	plugin.clear_function_cache()
-	__addon__.setSetting(id='iarl_setting_clear_cache_value',value='false') #Set back to false, no need to clear it next run
-	print 'IARL:  Advanced Setting Cache Clear Completed'
+	__addon__.setSetting(id='iarlsnes_setting_clear_cache_value',value='false') #Set back to false, no need to clear it next run
+	print 'iarlsnes:  Advanced Setting Cache Clear Completed'
 
 def update_external_launch_commands(current_os,retroarch_path,retroarch_cfg_path,xml_id,plugin):
 
@@ -433,13 +433,13 @@ def update_external_launch_commands(current_os,retroarch_path,retroarch_cfg_path
 						if current_cfg_path is None: #If the current config path is not yet defined and the file was found, then define it
 							current_cfg_path = cfg_files
 				except:
-					print 'IARL: '+cfg_files+' does not exist'
+					print 'iarlsnes: '+cfg_files+' does not exist'
 		else:
 			current_cfg_path = retroarch_cfg_path #If the config path is defined in settings, use that
 
 		if current_cfg_path is None:
 			current_cfg_path = ''
-			print 'IARL:  Error, no config file is defined'
+			print 'iarlsnes:  Error, no config file is defined'
 
 	for entries in results: #Create list of available commands for the current OS
 		if entries['operating_system'][0] == current_os:
@@ -489,7 +489,7 @@ def copyFile(oldPath, newPath):
 	
 	
 def getSettings():
-	settings = xbmcaddon.Addon(id='%s' %iarl_plugin_name)
+	settings = xbmcaddon.Addon(id='%s' %iarlsnes_plugin_name)
 	return settings
 
 
@@ -561,7 +561,7 @@ def scape_xml_headers():
 			if line_num == total_lines:  #Couldn't find the header
 				header_end = 1
 				f.close()
-				print 'IARL Error:  Unable to parse header in xml file'
+				print 'iarlsnes Error:  Unable to parse header in xml file'
 
 	dat_file_table = {
 	'emu_name' : emu_name,
@@ -621,7 +621,7 @@ def get_xml_header_paths(xmlfilename):
 		if line_num == total_lines:  #Couldn't find the header
 			header_end = 1
 			f.close()
-			print 'IARL Error:  Unable to parse header in xml file'
+			print 'iarlsnes Error:  Unable to parse header in xml file'
 
 	dat_file_table = {
 	'emu_name' : emu_name,
@@ -659,7 +659,7 @@ def get_xml_header_version(xmlfilename):
 		if line_num == total_lines:  #Couldn't find the header
 			header_end = 1
 			f.close()
-			print 'IARL Error:  Unable to get version in xml header file'
+			print 'iarlsnes Error:  Unable to get version in xml header file'
 
 	dat_file_table = {
 	'emu_name' : emu_name,
@@ -691,7 +691,7 @@ def get_xml_header_category(xmlfilename):
 		if line_num == total_lines:  #Couldn't find the header
 			header_end = 1
 			f.close()
-			print 'IARL Error:  Unable to get category in xml header file'
+			print 'iarlsnes Error:  Unable to get category in xml header file'
 
 	dat_file_table = {
 	'emu_name' : emu_name,
@@ -702,99 +702,99 @@ def get_xml_header_category(xmlfilename):
 
 
 
-def set_iarl_window_properties(emu_name):
+def set_iarlsnes_window_properties(emu_name):
 
 	if '32X' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','32x')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','32x_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','32x_head.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','32x_bg.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','32x')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','32x_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','32x_head.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','32x_bg.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	elif 'Nintendo Entertainment System - NES' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','NES')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','NES_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','white.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','nes_dark_bg.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','NES')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','NES_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','white.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','nes_dark_bg.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	elif 'Super Nintendo Entertainment System - SNES' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','SNES')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','SNES_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','white.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','nes_dark_bg.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','SNES')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','SNES_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','white.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','nes_dark_bg.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	elif 'Genesis' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','Genesis')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','genesis_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','sega_head.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','sega_bg.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','Genesis')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','genesis_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','sega_head.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','sega_bg.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	elif 'Game Gear' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','Game Gear')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','genesis_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','sega_head.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','sega_bg.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','Game Gear')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','genesis_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','sega_head.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','sega_bg.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	elif 'Master System' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','Master System')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','genesis_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','white.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','sega_bg.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','Master System')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','genesis_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','white.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','sega_bg.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	elif 'N64' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','N64')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','N64_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','n64_head.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','n64_bg.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','N64')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','N64_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','n64_head.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','n64_bg.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	elif 'MAME' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','MAME')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','arcade_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','arcade_head.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','arcade_bg.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','MAME')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','arcade_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','arcade_head.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','arcade_bg.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	elif '2600' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','2600')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','arcade_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','atari_head.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','atari_bg.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','2600')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','arcade_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','atari_head.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','atari_bg.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	elif 'Jaguar' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','Jaguar')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','arcade_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','jaguar_head.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','black.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','Jaguar')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','arcade_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','jaguar_head.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','black.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	elif 'Lynx' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','Lynx')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','arcade_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','lynx_head.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','black.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','Lynx')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','arcade_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','lynx_head.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','black.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	elif 'TurboGrafx' in emu_name:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','TurboGrafx')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','arcade_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','tg16_head.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','tg16_bg.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','TurboGrafx')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','arcade_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','tg16_head.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','tg16_bg.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 	else:
-		xbmcgui.Window(10000).setProperty('iarl.current_theme','default')
-		xbmcgui.Window(10000).setProperty('iarl.default_thumb','arcade_default_box.jpg')
-		xbmcgui.Window(10000).setProperty('iarl.header_color','white.png')
-		xbmcgui.Window(10000).setProperty('iarl.bg_color','black.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonfocustheme','button-highlight1.png')
-		xbmcgui.Window(10000).setProperty('iarl.buttonnofocustheme','button-nofocus2.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.current_theme','default')
+		xbmcgui.Window(10000).setProperty('iarlsnes.default_thumb','arcade_default_box.jpg')
+		xbmcgui.Window(10000).setProperty('iarlsnes.header_color','white.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.bg_color','black.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonfocustheme','button-highlight1.png')
+		xbmcgui.Window(10000).setProperty('iarlsnes.buttonnofocustheme','button-nofocus2.png')
 
 
 def parse_xml_romfile(xmlfilename,parserfile,cleanlist,plugin):
@@ -806,8 +806,8 @@ def parse_xml_romfile(xmlfilename,parserfile,cleanlist,plugin):
 	#Get Results
 	results = descParser.parseDescription(xmlfilename,'xml')
 
-	set_iarl_window_properties(xml_header_info['emu_name'][0])
-	iarl_setting_naming = plugin.get_setting('iarl_setting_naming',unicode)
+	set_iarlsnes_window_properties(xml_header_info['emu_name'][0])
+	iarlsnes_setting_naming = plugin.get_setting('iarlsnes_setting_naming',unicode)
 
 	items = []
 	current_item = []
@@ -918,7 +918,7 @@ def parse_xml_romfile(xmlfilename,parserfile,cleanlist,plugin):
 		current_icon2 = filter(bool, current_icon)
 
 		if not current_icon2:
-			current_icon2 = getMediaFilePath() + xbmcgui.Window(10000).getProperty('iarl.default_thumb') #Use the default thumb if nothing else is avialable
+			current_icon2 = getMediaFilePath() + xbmcgui.Window(10000).getProperty('iarlsnes.default_thumb') #Use the default thumb if nothing else is avialable
 		else:
 			current_icon2 = current_icon2[0]
 
@@ -940,7 +940,7 @@ def parse_xml_romfile(xmlfilename,parserfile,cleanlist,plugin):
 		current_thumbnail2 = filter(bool, current_thumbnail)
 
 		if not current_thumbnail2:
-			current_thumbnail2 = getMediaFilePath() + xbmcgui.Window(10000).getProperty('iarl.default_thumb') #Use the default thumb if nothing else is avialable
+			current_thumbnail2 = getMediaFilePath() + xbmcgui.Window(10000).getProperty('iarlsnes.default_thumb') #Use the default thumb if nothing else is avialable
 		else:
 			current_thumbnail2 = current_thumbnail2[0]
 
@@ -1022,23 +1022,23 @@ def parse_xml_romfile(xmlfilename,parserfile,cleanlist,plugin):
 		label_sep = '  |  '
 		xstr = lambda s: s or ''
 
-		if iarl_setting_naming == 'Title':
+		if iarlsnes_setting_naming == 'Title':
 			current_label = xstr(current_name)
-		elif iarl_setting_naming == 'Title, Genre':
+		elif iarlsnes_setting_naming == 'Title, Genre':
 			current_label = xstr(current_name) + label_sep + xstr(current_genre)
-		elif iarl_setting_naming == 'Title, Date':
+		elif iarlsnes_setting_naming == 'Title, Date':
 			current_label = xstr(current_name) + label_sep + current_date
-		elif iarl_setting_naming == 'Title, Genre, Date':
+		elif iarlsnes_setting_naming == 'Title, Genre, Date':
 			current_label = xstr(current_name) + label_sep + xstr(current_genre) + label_sep + xstr(current_date)
-		elif iarl_setting_naming == 'Genre, Title':
+		elif iarlsnes_setting_naming == 'Genre, Title':
 			current_label = xstr(current_genre) + label_sep + xstr(current_name)
-		elif iarl_setting_naming == 'Date, Title':
+		elif iarlsnes_setting_naming == 'Date, Title':
 			current_label = xstr(current_date) + label_sep + xstr(current_name)
-		elif iarl_setting_naming == 'Genre, Title, Date':
+		elif iarlsnes_setting_naming == 'Genre, Title, Date':
 			current_label = xstr(current_genre) + label_sep + xstr(current_name) + label_sep + xstr(current_date)
-		elif iarl_setting_naming == 'Date, Title, Genre':
+		elif iarlsnes_setting_naming == 'Date, Title, Genre':
 			current_label = xstr(current_date) + label_sep + xstr(current_name) + label_sep + xstr(current_genre)
-		elif iarl_setting_naming == 'Title, Genre, Date, ROM Tag':
+		elif iarlsnes_setting_naming == 'Title, Genre, Date, ROM Tag':
 			current_label = xstr(current_name) + label_sep + xstr(current_genre) + label_sep + xstr(current_date) + label_sep + xstr(current_rom_tag)
 		else:
 			current_label = xstr(current_name)
@@ -1103,7 +1103,7 @@ def query_favorites_xml():
 	favorite_xmls['emu_location'] = list()
 
 	for ii in range(0,len(emu_info['emu_name'])):
-		if 'IARL_Favorites'.lower() in emu_info['emu_description'][ii].lower():
+		if 'iarlsnes_Favorites'.lower() in emu_info['emu_description'][ii].lower():
 			favorite_xmls['emu_name'].append(emu_info['emu_name'][ii])
 			favorite_xmls['emu_location'].append(emu_info['emu_location'][ii])
 
@@ -1123,7 +1123,7 @@ def query_favorites_xml():
 				update_xml_header(current_xml_path,current_xml_filename,'emu_name',ret2)
 				favorites_xml_filename = saved_filename
 	elif favorite_xmls['emu_name'][ret1] == favorite_xmls['emu_name'][-1]: #Cancel adding favorite
-		print 'IARL:  Adding Favorite Cancelled'
+		print 'iarlsnes:  Adding Favorite Cancelled'
 		favorites_xml_filename = None
 	else:
 		favorites_xml_filename = favorite_xmls['emu_location'][ret1]
@@ -1334,8 +1334,8 @@ def dlfile(url,dest):
     # Open the url
     try:
         f = urlopen(url)
-        print "IARL: Downloading " + url
-        print "IARL: To location " + dest
+        print "iarlsnes: Downloading " + url
+        print "iarlsnes: To location " + dest
 
         # Open our local file for writing
         with open(dest, "wb") as local_file:
@@ -1346,10 +1346,10 @@ def dlfile(url,dest):
 
     #handle errors
     except HTTPError, e:
-        print "IARL HTTP Error:", e.code, url
+        print "iarlsnes HTTP Error:", e.code, url
         result=0
     except URLError, e:
-        print "IARL URL Error:", e.reason, url
+        print "iarlsnes URL Error:", e.reason, url
         result=0
 
     return result
@@ -1506,22 +1506,22 @@ def unzip_dosbox_update_conf_file(current_fname):
 							pass
 				fout.close()
 				new_fname = new_conf_file
-				print 'IARL:  Created DOSBox Launch configuration file: '+new_fname
+				print 'iarlsnes:  Created DOSBox Launch configuration file: '+new_fname
 			else:
 				current_dialog = xbmcgui.Dialog()
 				ok_ret = current_dialog.ok('Notice','No configuration file found with DOS Game Archive[CR]You will have to manually launch this game.')
-				print 'IARL:  No configuration file found with DOS Game Archive'
+				print 'iarlsnes:  No configuration file found with DOS Game Archive'
 				new_fname = current_fname
 
 	return zip_success, new_fname
 
-def convert_chd_bin(current_fname,iarl_setting_chdman_path):
+def convert_chd_bin(current_fname,iarlsnes_setting_chdman_path):
 	chd_success = False
 	new_file_extension = None
 	new_fname = None
 	current_dialog = xbmcgui.Dialog()
 
-	if iarl_setting_chdman_path is None: #Check if there's a CHDMAN available
+	if iarlsnes_setting_chdman_path is None: #Check if there's a CHDMAN available
 		ok_ret = current_dialog.ok('Error','No CHDMAN path appears to be set in your addon settings.')
 		return chd_success, new_fname
 
@@ -1537,11 +1537,11 @@ def convert_chd_bin(current_fname,iarl_setting_chdman_path):
 		output_cue = os.path.join(file_path,file_base_name+'.cue')
 		output_bin = os.path.join(file_path,file_base_name+'.bin')
 		command = '"%CHD_APP_PATH%" extractcd -i "%INPUT_CHD%" -o "%OUTPUT_CUE%" -ob "%OUTPUT_BIN%"' #May need to provide other OS options here
-		command = command.replace('%CHD_APP_PATH%',iarl_setting_chdman_path)
+		command = command.replace('%CHD_APP_PATH%',iarlsnes_setting_chdman_path)
 		command = command.replace("%INPUT_CHD%",current_fname)
 		command = command.replace("%OUTPUT_CUE%",output_cue)
 		command = command.replace("%OUTPUT_BIN%",output_bin)
-		print 'IARL:  Attempting CHD Conversion: '+command
+		print 'iarlsnes:  Attempting CHD Conversion: '+command
 		failed_text = 'Unhandled exception'
 		already_exists_text = 'file already exists'
 		success_text = 'Extraction complete'
@@ -1550,23 +1550,23 @@ def convert_chd_bin(current_fname,iarl_setting_chdman_path):
 		conversion_process.kill() #End the process after its completed
 
 		if success_text.lower() in results1.lower():
-			print 'IARL:  CHD Conversion Successful'
+			print 'iarlsnes:  CHD Conversion Successful'
 			new_fname = output_bin
 			chd_success = True
 		elif already_exists_text.lower() in results1.lower():
-			print 'IARL:  BIN File already exists, conversion not required'
+			print 'iarlsnes:  BIN File already exists, conversion not required'
 			new_fname = output_bin
 			chd_success = True
 		elif failed_text.lower() in results1.lower():
 			chd_success = False
-			print 'IARL:  CHD Conversion Failed'
+			print 'iarlsnes:  CHD Conversion Failed'
 			print results1
 		else:
 			chd_success = False
-			print 'IARL:  CHD Conversion Failed'
+			print 'iarlsnes:  CHD Conversion Failed'
 		# except:
 		# 	chd_success = False
-		# 	print 'IARL:  CHD Conversion Failed'
+		# 	print 'iarlsnes:  CHD Conversion Failed'
 
 		if chd_success:
 			os.remove(current_fname) #Delete the CHD and leave the new BIN/CUE if the conversion was a success
@@ -1579,14 +1579,14 @@ def convert_chd_bin(current_fname,iarl_setting_chdman_path):
 	# current_dialog.close()
 	return chd_success, new_fname
 
-def convert_chd_cue(current_fname,iarl_setting_chdman_path):
+def convert_chd_cue(current_fname,iarlsnes_setting_chdman_path):
 	#Quick and dirty to point to cue if needed, may fix later
 	chd_success = False
 	new_file_extension = None
 	new_fname = None
 	current_dialog = xbmcgui.Dialog()
 
-	if iarl_setting_chdman_path is None: #Check if there's a CHDMAN available
+	if iarlsnes_setting_chdman_path is None: #Check if there's a CHDMAN available
 		ok_ret = current_dialog.ok('Error','No CHDMAN path appears to be set in your addon settings.')
 		return chd_success, new_fname
 
@@ -1602,11 +1602,11 @@ def convert_chd_cue(current_fname,iarl_setting_chdman_path):
 		output_cue = os.path.join(file_path,file_base_name+'.cue')
 		output_bin = os.path.join(file_path,file_base_name+'.bin')
 		command = '"%CHD_APP_PATH%" extractcd -i "%INPUT_CHD%" -o "%OUTPUT_CUE%" -ob "%OUTPUT_BIN%"' #May need to provide other OS options here
-		command = command.replace('%CHD_APP_PATH%',iarl_setting_chdman_path)
+		command = command.replace('%CHD_APP_PATH%',iarlsnes_setting_chdman_path)
 		command = command.replace("%INPUT_CHD%",current_fname)
 		command = command.replace("%OUTPUT_CUE%",output_cue)
 		command = command.replace("%OUTPUT_BIN%",output_bin)
-		print 'IARL:  Attempting CHD Conversion: '+command
+		print 'iarlsnes:  Attempting CHD Conversion: '+command
 		failed_text = 'Unhandled exception'
 		already_exists_text = 'file already exists'
 		success_text = 'Extraction complete'
@@ -1615,23 +1615,23 @@ def convert_chd_cue(current_fname,iarl_setting_chdman_path):
 		conversion_process.kill() #End the process after its completed
 
 		if success_text.lower() in results1.lower():
-			print 'IARL:  CHD Conversion Successful'
+			print 'iarlsnes:  CHD Conversion Successful'
 			new_fname = output_cue
 			chd_success = True
 		elif already_exists_text.lower() in results1.lower():
-			print 'IARL:  CUE File already exists, conversion not required'
+			print 'iarlsnes:  CUE File already exists, conversion not required'
 			new_fname = output_cue
 			chd_success = True
 		elif failed_text.lower() in results1.lower():
 			chd_success = False
-			print 'IARL:  CHD Conversion Failed'
+			print 'iarlsnes:  CHD Conversion Failed'
 			print results1
 		else:
 			chd_success = False
-			print 'IARL:  CHD Conversion Failed'
+			print 'iarlsnes:  CHD Conversion Failed'
 		# except:
 		# 	chd_success = False
-		# 	print 'IARL:  CHD Conversion Failed'
+		# 	print 'iarlsnes:  CHD Conversion Failed'
 
 		if chd_success:
 			os.remove(current_fname) #Delete the CHD and leave the new BIN/CUE if the conversion was a success
@@ -1652,7 +1652,7 @@ def rename_rom_postdl(current_fname,new_extension):
 		file_basename_no_ext = os.path.splitext(current_fname)
 		new_fname = file_basename_no_ext[0]+'.'+new_extension.replace('.','').replace("'",'') #Clean extension
 		os.rename(current_fname,new_fname) #Rename file with new extension
-		print 'IARL: Renamed filename to: '+new_fname
+		print 'iarlsnes: Renamed filename to: '+new_fname
 		rename_success = True
 
 	return rename_success, new_fname
@@ -1703,7 +1703,7 @@ def lynx_header_fix(current_fname):
 			os.rename(temp_filename,new_rom_fname) #Rename Temp File
 			new_fname = new_rom_fname
 			success = True
-			print 'IARL:  Lynx ROM Updated with '+header_text+' bytes'
+			print 'iarlsnes:  Lynx ROM Updated with '+header_text+' bytes'
 
 	return success, new_fname
 
@@ -1747,7 +1747,7 @@ def hide_selected_archive(xml_id,plugin):
 	if ret1 == 0:
 		new_xml_category = xml_current_category['emu_category'][0] + ', hidden'
 		update_xml_header(current_xml_path,current_xml_filename,'emu_category',new_xml_category)
-		ok_ret = current_dialog.ok('Complete','Archive will be hidden after IARL restart[CR]Cache was cleared for new settings')
+		ok_ret = current_dialog.ok('Complete','Archive will be hidden after iarlsnes restart[CR]Cache was cleared for new settings')
 		plugin.clear_function_cache()
 	else:
 		pass
@@ -1842,7 +1842,7 @@ def check_downloaded_file(file_path):
 
 def getScrapingMode(settings):
 	scrapingMode = 0
-	scrapingModeStr = settings.getSetting(SETTING_IARL_SCRAPINGMODE)			
+	scrapingModeStr = settings.getSetting(SETTING_iarlsnes_SCRAPINGMODE)			
 	if(scrapingModeStr == 'Automatic: Accurate'):
 		scrapingMode = 0
 	elif(scrapingModeStr == 'Automatic: Guess Matches'):
@@ -1880,9 +1880,9 @@ def debug(message, level=xbmc.LOGNOTICE):
         if isinstance(message, unicode):
             message = message.encode("utf-8")
         for line in message.splitlines():
-            xbmc.log(msg="IARL: " + line, level=level)
+            xbmc.log(msg="iarlsnes: " + line, level=level)
 
-iarl_plugin_home = getAddonInstallPath()
+iarlsnes_plugin_home = getAddonInstallPath()
 
 
 #
@@ -1892,10 +1892,10 @@ iarl_plugin_home = getAddonInstallPath()
 
 try:
 	from sqlite3 import dbapi2 as sqlite
-	print("IARL_INFO: Loading sqlite3 as DB engine")
+	print("iarlsnes_INFO: Loading sqlite3 as DB engine")
 except:
 	from pysqlite2 import dbapi2 as sqlite
-	print("IARL_INFO: Loading pysqlite2 as DB engine")
+	print("iarlsnes_INFO: Loading pysqlite2 as DB engine")
 
 class Logutil:
 	
@@ -1905,22 +1905,22 @@ class Logutil:
 	def log(message, logLevel):
 			
 		if(Logutil.currentLogLevel == None):
-			print "IARL: init log level"
+			print "iarlsnes: init log level"
 			Logutil.currentLogLevel = Logutil.getCurrentLogLevel()
-			print "IARL: current log level: " +str(Logutil.currentLogLevel)
+			print "iarlsnes: current log level: " +str(Logutil.currentLogLevel)
 		
 		if(logLevel > Logutil.currentLogLevel):			
 			return
 			
 		prefix = ''
 		if(logLevel == LOG_LEVEL_DEBUG):
-			prefix = 'IARL_DEBUG: '
+			prefix = 'iarlsnes_DEBUG: '
 		elif(logLevel == LOG_LEVEL_INFO):
-			prefix = 'IARL_INFO: '
+			prefix = 'iarlsnes_INFO: '
 		elif(logLevel == LOG_LEVEL_WARNING):
-			prefix = 'IARL_WARNING: '
+			prefix = 'iarlsnes_WARNING: '
 		elif(logLevel == LOG_LEVEL_ERROR):
-			prefix = 'IARL_ERROR: '
+			prefix = 'iarlsnes_ERROR: '
 						
 		try:
 			print prefix + message
@@ -1933,7 +1933,7 @@ class Logutil:
 		logLevel = 1
 		try:
 			settings = getSettings()
-			logLevelStr = settings.getSetting(SETTING_IARL_LOGLEVEL)
+			logLevelStr = settings.getSetting(SETTING_iarlsnes_LOGLEVEL)
 			if(logLevelStr == 'ERROR'):
 				logLevel = LOG_LEVEL_ERROR
 			elif(logLevelStr == 'WARNING'):
