@@ -11,35 +11,35 @@ import resources.lib.paginate as paginate
 plugin = Plugin()
 
 #Define Addon Settings
-iarlsnessnes_setting_cache_list = plugin.get_setting('iarlsnessnes_setting_cache_list',bool)
-iarlsnessnes_setting_clean_list = plugin.get_setting('iarlsnessnes_setting_clean_list',bool)
-iarlsnessnes_setting_clear_cache_value  = plugin.get_setting('iarlsnessnes_setting_clear_cache_value',bool)
-iarlsnessnes_setting_clear_hidden_archives  = plugin.get_setting('iarlsnessnes_setting_clear_hidden_archives',bool)
-iarlsnessnes_setting_naming = plugin.get_setting('iarlsnessnes_setting_naming',unicode)
-iarlsnessnes_setting_listing = plugin.get_setting('iarlsnessnes_setting_listing',unicode)
+iarlsnes_setting_cache_list = plugin.get_setting('iarlsnes_setting_cache_list',bool)
+iarlsnes_setting_clean_list = plugin.get_setting('iarlsnes_setting_clean_list',bool)
+iarlsnes_setting_clear_cache_value  = plugin.get_setting('iarlsnes_setting_clear_cache_value',bool)
+iarlsnes_setting_clear_hidden_archives  = plugin.get_setting('iarlsnes_setting_clear_hidden_archives',bool)
+iarlsnes_setting_naming = plugin.get_setting('iarlsnes_setting_naming',unicode)
+iarlsnes_setting_listing = plugin.get_setting('iarlsnes_setting_listing',unicode)
 
 items_pp_options = {'10':10,'25':25,'50':50,'100':100,'150':150,'200':200,'250':250,'300':300,'350':350,'400':400,'450':450,'500':500,'List All':99999}
 try:
-    iarlsnessnes_setting_items_pp = items_pp_options[plugin.get_setting('iarlsnessnes_setting_items_pp',unicode)]
+    iarlsnes_setting_items_pp = items_pp_options[plugin.get_setting('iarlsnes_setting_items_pp',unicode)]
 except ValueError:
-    iarlsnessnes_setting_items_pp = 99999
+    iarlsnes_setting_items_pp = 99999
 
 cache_options = {'Zero (One ROM and Supporting Files Only)':0,'10 MB':10*1e6,'25MB':25*1e6,'50MB':50*1e6,'100MB':100*1e6,'150MB':150*1e6,'200MB':200*1e6,'250MB':250*1e6,'300MB':300*1e6,'350MB':350*1e6,'400MB':400*1e6,'450MB':450*1e6,'500MB':500*1e6,'1GB':1000*1e6,'2GB':2000*1e6,'5GB':5000*1e6,'10GB':10000*1e6,'20GB':20000*1e6}
 try:
-    iarlsnessnes_setting_dl_cache = cache_options[plugin.get_setting('iarlsnessnes_setting_dl_cache',unicode)]
+    iarlsnes_setting_dl_cache = cache_options[plugin.get_setting('iarlsnes_setting_dl_cache',unicode)]
 except ValueError:
-    iarlsnessnes_setting_dl_cache = 0
+    iarlsnes_setting_dl_cache = 0
 
-if not iarlsnessnes_setting_cache_list:
+if not iarlsnes_setting_cache_list:
     plugin.clear_function_cache() #Clear the list cache every run, if caching lists is not selected
 
-if iarlsnessnes_setting_clear_cache_value:
+if iarlsnes_setting_clear_cache_value:
     advanced_setting_action_clear_cache(plugin)
 
-if iarlsnessnes_setting_clear_hidden_archives: #Unhide any archives that were hidden
+if iarlsnes_setting_clear_hidden_archives: #Unhide any archives that were hidden
     unhide_all_archives(plugin)
     import xbmcaddon
-    xbmcaddon.Addon(id='plugin.program.iarlsnessnes').setSetting(id='iarlsnes_setting_clear_hidden_archives',value='false')
+    xbmcaddon.Addon(id='plugin.program.iarlsnes').setSetting(id='iarlsnes_setting_clear_hidden_archives',value='false')
     print 'iarlsnes:  Unhide All Archives set back to false' #Run only once
 
 iarlsnes_setting_default_action = plugin.get_setting('iarlsnes_setting_default_action') #Define action on game selection
