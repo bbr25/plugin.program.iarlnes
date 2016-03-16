@@ -11,43 +11,43 @@ import resources.lib.paginate as paginate
 plugin = Plugin()
 
 #Define Addon Settings
-iarlsnes_setting_cache_list = plugin.get_setting('iarlsnes_setting_cache_list',bool)
-iarlsnes_setting_clean_list = plugin.get_setting('iarlsnes_setting_clean_list',bool)
-iarlsnes_setting_clear_cache_value  = plugin.get_setting('iarlsnes_setting_clear_cache_value',bool)
-iarlsnes_setting_clear_hidden_archives  = plugin.get_setting('iarlsnes_setting_clear_hidden_archives',bool)
-iarlsnes_setting_naming = plugin.get_setting('iarlsnes_setting_naming',unicode)
-iarlsnes_setting_listing = plugin.get_setting('iarlsnes_setting_listing',unicode)
+iarlnes_setting_cache_list = plugin.get_setting('iarlnes_setting_cache_list',bool)
+iarlnes_setting_clean_list = plugin.get_setting('iarlnes_setting_clean_list',bool)
+iarlnes_setting_clear_cache_value  = plugin.get_setting('iarlnes_setting_clear_cache_value',bool)
+iarlnes_setting_clear_hidden_archives  = plugin.get_setting('iarlnes_setting_clear_hidden_archives',bool)
+iarlnes_setting_naming = plugin.get_setting('iarlnes_setting_naming',unicode)
+iarlnes_setting_listing = plugin.get_setting('iarlnes_setting_listing',unicode)
 
 items_pp_options = {'10':10,'25':25,'50':50,'100':100,'150':150,'200':200,'250':250,'300':300,'350':350,'400':400,'450':450,'500':500,'List All':99999}
 try:
-    iarlsnes_setting_items_pp = items_pp_options[plugin.get_setting('iarlsnes_setting_items_pp',unicode)]
+    iarlnes_setting_items_pp = items_pp_options[plugin.get_setting('iarlnes_setting_items_pp',unicode)]
 except ValueError:
-    iarlsnes_setting_items_pp = 99999
+    iarlnes_setting_items_pp = 99999
 
 cache_options = {'Zero (One ROM and Supporting Files Only)':0,'10 MB':10*1e6,'25MB':25*1e6,'50MB':50*1e6,'100MB':100*1e6,'150MB':150*1e6,'200MB':200*1e6,'250MB':250*1e6,'300MB':300*1e6,'350MB':350*1e6,'400MB':400*1e6,'450MB':450*1e6,'500MB':500*1e6,'1GB':1000*1e6,'2GB':2000*1e6,'5GB':5000*1e6,'10GB':10000*1e6,'20GB':20000*1e6}
 try:
-    iarlsnes_setting_dl_cache = cache_options[plugin.get_setting('iarlsnes_setting_dl_cache',unicode)]
+    iarlnes_setting_dl_cache = cache_options[plugin.get_setting('iarlnes_setting_dl_cache',unicode)]
 except ValueError:
-    iarlsnes_setting_dl_cache = 0
+    iarlnes_setting_dl_cache = 0
 
-if not iarlsnes_setting_cache_list:
+if not iarlnes_setting_cache_list:
     plugin.clear_function_cache() #Clear the list cache every run, if caching lists is not selected
 
-if iarlsnes_setting_clear_cache_value:
+if iarlnes_setting_clear_cache_value:
     advanced_setting_action_clear_cache(plugin)
 
-if iarlsnes_setting_clear_hidden_archives: #Unhide any archives that were hidden
+if iarlnes_setting_clear_hidden_archives: #Unhide any archives that were hidden
     unhide_all_archives(plugin)
     import xbmcaddon
-    xbmcaddon.Addon(id='plugin.program.iarlsnes').setSetting(id='iarlsnes_setting_clear_hidden_archives',value='false')
-    print 'iarlsnes:  Unhide All Archives set back to false' #Run only once
+    xbmcaddon.Addon(id='plugin.program.iarlnes').setSetting(id='iarlnes_setting_clear_hidden_archives',value='false')
+    print 'iarlnes:  Unhide All Archives set back to false' #Run only once
 
-iarlsnes_setting_default_action = plugin.get_setting('iarlsnes_setting_default_action') #Define action on game selection
-iarlsnes_setting_localfile_action = plugin.get_setting('iarlsnes_setting_localfile_action') #Define action if file exists locally
-iarlsnes_setting_retroarch_path = plugin.get_setting('iarlsnes_path_to_retroarch') #OSX, Win, Nix only
-iarlsnes_setting_retroarch_cfg_path = plugin.get_setting('iarlsnes_path_to_retroarch_cfg') #Android only
-iarlsnes_setting_chdman_path = plugin.get_setting('iarlsnes_path_to_chdman')
-iarlsnes_setting_operating_system = get_Operating_System()
+iarlnes_setting_default_action = plugin.get_setting('iarlnes_setting_default_action') #Define action on game selection
+iarlnes_setting_localfile_action = plugin.get_setting('iarlnes_setting_localfile_action') #Define action if file exists locally
+iarlnes_setting_retroarch_path = plugin.get_setting('iarlnes_path_to_retroarch') #OSX, Win, Nix only
+iarlnes_setting_retroarch_cfg_path = plugin.get_setting('iarlnes_path_to_retroarch_cfg') #Android only
+iarlnes_setting_chdman_path = plugin.get_setting('iarlnes_path_to_chdman')
+iarlnes_setting_operating_system = get_Operating_System()
 
 #Define Addon routing
 @plugin.route('/update_xml/<xml_id>')
@@ -72,7 +72,7 @@ def update_xml_value(xml_id):
 
     elif tag_value == 'emu_ext_launch_cmd':
         print 'Updating External Launch Command'
-        update_external_launch_commands(iarlsnes_setting_operating_system,iarlsnes_setting_retroarch_path,iarlsnes_setting_retroarch_cfg_path,xml_id,plugin)
+        update_external_launch_commands(iarlnes_setting_operating_system,iarlnes_setting_retroarch_path,iarlnes_setting_retroarch_cfg_path,xml_id,plugin)
 
     elif tag_value == 'hide_archive':
         print 'Hide Archive Selected'
@@ -92,7 +92,7 @@ def update_favorite_items(item_string):
         fav_item = ast.literal_eval(item_string)
     except:
         fav_item = None
-        print 'iarlsnes:  Error, unable to add favorite.  Please check the log.'
+        print 'iarlnes:  Error, unable to add favorite.  Please check the log.'
 
     if fav_item is not None:
         favorites_xml_filename = query_favorites_xml() #Find all the current favorite xml files, prompt for which to use, or make a new one
@@ -103,9 +103,9 @@ def update_favorite_items(item_string):
                 if add_success:
                     current_dialog = xbmcgui.Dialog()
                     ok_ret = current_dialog.ok('Complete','Favorite Added:[CR]'+fav_item['label'])   
-                    print 'iarlsnes:  Favorite Added: '+fav_item['label']
+                    print 'iarlnes:  Favorite Added: '+fav_item['label']
             except:
-                print 'iarlsnes:  Error, unable to add favorite.  Please check the log.'
+                print 'iarlnes:  Error, unable to add favorite.  Please check the log.'
 
 def update_context_favorite(item_in,context_label):
     new_url = plugin.url_for('update_favorite_items', item_string=item_in)
@@ -128,7 +128,7 @@ def index():
                         update_context(emu_info['emu_location'][ii],'hide_archive','Hide This Archive'),]
 
         if 'hidden' not in emu_info['emu_category'][ii]: #Don't include the archive if it's tagged hidden
-            if 'alphabetical' in iarlsnes_setting_listing.lower(): #List alphabetically
+            if 'alphabetical' in iarlnes_setting_listing.lower(): #List alphabetically
                 items.append({ 
                 'label' : emu_info['emu_name'][ii], 'path': plugin.url_for('get_rom_starting_letter_page', category_id=emu_info['emu_name'][ii],parser_id=emu_info['emu_parser'][ii],xml_id=emu_info['emu_location'][ii]), 'icon': emu_info['emu_logo'][ii],
                 'thumbnail' : emu_info['emu_thumb'][ii],
@@ -204,7 +204,7 @@ def get_rom_page(category_id,page_id):
         rom_list = None
     
 
-    page = paginate.Page(rom_list, page=page_id, items_per_page=iarlsnes_setting_items_pp)
+    page = paginate.Page(rom_list, page=page_id, items_per_page=iarlnes_setting_items_pp)
     # print page.items
     #Create Page Controls
     next_page = []
@@ -294,10 +294,10 @@ def get_rom_starting_letter_page(category_id):
 def get_rom_list(xmlpath,parserpath):
     parserpath = getParserFilePath(parserpath)
     file_basename = os.path.splitext(os.path.basename(xmlpath))
-    rom_list = parse_xml_romfile(xmlpath,parserpath,iarlsnes_setting_clean_list,plugin) #List doesn't exist, so get the romlist
+    rom_list = parse_xml_romfile(xmlpath,parserpath,iarlnes_setting_clean_list,plugin) #List doesn't exist, so get the romlist
 
     for ii in range(0,len(rom_list)):
-        rom_list[ii]['context_menu'] = [update_context_favorite('%s'%rom_list[ii],'Add to iarlsnes Favorites')]
+        rom_list[ii]['context_menu'] = [update_context_favorite('%s'%rom_list[ii],'Add to iarlnes Favorites')]
 
     return rom_list
     
@@ -347,7 +347,7 @@ def search_roms_results(search_term,**kwargs):
         try:
             datefrom_num = int(current_datefrom.lower().strip()) #No checking... yet
         except:
-            print 'iarlsnes Error:  Date from is badly formatted, default year used'
+            print 'iarlnes Error:  Date from is badly formatted, default year used'
             datefrom_num = 1950 #Bad formatted date
 
     if current_dateto == 'any':
@@ -356,14 +356,14 @@ def search_roms_results(search_term,**kwargs):
         try:
             dateto_num = int(current_dateto.lower().strip())
         except:
-            print 'iarlsnes Error:  Date to is badly formatted, default year used'
+            print 'iarlnes Error:  Date to is badly formatted, default year used'
             dateto_num = 2999 #Bad formatted date
 
     date_list = range(datefrom_num,dateto_num) #List of years to look for
 
     emu_info = scape_xml_headers() #Find all xml dat files and get the header info
     progress_dialog = xbmcgui.DialogProgress()
-    progress_dialog.create('iarlsnes', 'Searching...')
+    progress_dialog.create('iarlnes', 'Searching...')
 
     #This probably isnt a very efficient method for filtering.  Need to look into lambda dict filtering
     if current_adv_search == 'False':
@@ -373,13 +373,13 @@ def search_roms_results(search_term,**kwargs):
                 if current_search_term == 'any':
                     for roms_in_list in get_rom_list(emu_info['emu_location'][ii],emu_info['emu_parser'][ii]):
                         if (progress_dialog.iscanceled()):
-                            print 'iarlsnes:  Search Cancelled'
+                            print 'iarlnes:  Search Cancelled'
                             return
                         search_results.append(roms_in_list)
                 else:
                     for roms_in_list in get_rom_list(emu_info['emu_location'][ii],emu_info['emu_parser'][ii]):
                         if (progress_dialog.iscanceled()):
-                            print 'iarlsnes:  Search Cancelled'
+                            print 'iarlnes:  Search Cancelled'
                             return
                         if current_search_term in roms_in_list['label'].lower().strip(): #search term is in label
                             search_results.append(roms_in_list)
@@ -389,7 +389,7 @@ def search_roms_results(search_term,**kwargs):
             if current_includes[ii] == '1':
                 for roms_in_list in get_rom_list(emu_info['emu_location'][ii],emu_info['emu_parser'][ii]):
                     if (progress_dialog.iscanceled()):
-                        print 'iarlsnes:  Search Cancelled'
+                        print 'iarlnes:  Search Cancelled'
                         return
                     include_this_rom = True #Default to include rom
                     try:
@@ -433,7 +433,7 @@ def search_roms_results(search_term,**kwargs):
                         search_results.append(roms_in_list)
 
     progress_dialog.update(95, 'Compiling Results...')
-    print 'iarlsnes:  Found ' + str(len(search_results)) + ' matches'
+    print 'iarlnes:  Found ' + str(len(search_results)) + ' matches'
     return plugin.finish(search_results,cache_to_disc=True,sort_methods=[xbmcplugin.SORT_METHOD_NONE, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE, xbmcplugin.SORT_METHOD_DATE, xbmcplugin.SORT_METHOD_GENRE, xbmcplugin.SORT_METHOD_STUDIO_IGNORE_THE])
     progress_dialog.close()
 
@@ -482,7 +482,7 @@ def random_play():
     except:
         page = None
     try:
-        print 'iarlsnes:  Random play emulator '+emu_info2['emu_name'][rand_int_1]+' and game '+page.items[0]['info']['title']
+        print 'iarlnes:  Random play emulator '+emu_info2['emu_name'][rand_int_1]+' and game '+page.items[0]['info']['title']
     except:
         pass
         
@@ -565,18 +565,18 @@ def get_selected_rom(romname):
 
     check_for_warn(current_rom_save_fname) #Added warning for chd and img/iso type files, which can be turned off
 
-    if 'ROM Info Page'.lower() in iarlsnes_setting_default_action.lower():
+    if 'ROM Info Page'.lower() in iarlnes_setting_default_action.lower():
         MyROMWindow = ROMWindow('default.xml',getAddonInstallPath(),'Default','720p',rom_fname=current_rom_fname, rom_sfname=current_rom_sfname, rom_save_fname=current_rom_save_fname, rom_save_sfname=current_rom_save_sfname, emu_name=current_emu_name, logo=current_emu_logo, emu_fanart=current_emu_fanart, title=current_title, plot=current_plot, fanart=filter(bool, current_fanart), boxart=filter(bool, current_boxart), snapshot=filter(bool, current_snapshot), banner=filter(bool, current_banner), clearlogo=filter(bool, current_clearlogo), trailer=current_trailer, nplayers=current_nplayers, studio=current_studio, genre=current_genre, release_date=current_release_date, emu_downloadpath=current_emu_downloadpath, emu_postdlaction=current_emu_postdlaction, emu_launcher=current_emu_launcher, emu_ext_launch_cmd=current_emu_ext_launch_cmd, rom_emu_command=current_rom_emu_command, rom_filesize=current_filesize)
         MyROMWindow.doModal()
-    elif 'Download and Launch'.lower() in iarlsnes_setting_default_action.lower():
+    elif 'Download and Launch'.lower() in iarlnes_setting_default_action.lower():
         download_and_launch_rom(None,current_rom_fname,current_rom_sfname, current_rom_save_fname, current_rom_save_sfname, current_emu_downloadpath, current_emu_postdlaction, current_emu_launcher, current_emu_ext_launch_cmd, current_rom_emu_command, current_filesize,filter(bool, current_boxart),filter(bool, current_clearlogo),current_title)
-    elif 'Download Only'.lower() in iarlsnes_setting_default_action.lower():
+    elif 'Download Only'.lower() in iarlnes_setting_default_action.lower():
         current_dialog = xbmcgui.Dialog()
         download_success, new_rom_fname, new_rom_sfname = download_rom_only(current_rom_fname,current_rom_sfname, current_rom_save_fname, current_rom_save_sfname, current_emu_downloadpath, current_emu_postdlaction, current_rom_emu_command, current_filesize)
         if download_success:
             ok_ret = current_dialog.ok('Complete',current_rom_save_fname + ' was successfully downloaded')            
     else:
-        print 'iarlsnes Error:  Unknown Option'
+        print 'iarlnes Error:  Unknown Option'
         pass #Shouldn't ever see this
 
     pass
@@ -594,11 +594,11 @@ def download_rom_only(rom_fname,rom_sfname, rom_save_fname, rom_save_sfname, rom
     current_save_fname = os.path.join(current_path,rom_save_fname)
     current_save_sfname = os.path.join(current_path,rom_save_sfname)
 
-    fname_found, do_not_download_flag = check_if_rom_exits(current_save_fname,current_path,iarlsnes_setting_localfile_action)
+    fname_found, do_not_download_flag = check_if_rom_exits(current_save_fname,current_path,iarlnes_setting_localfile_action)
 
     if not do_not_download_flag: #File already is downloaded, no need to do anything else
         if rom_dl_path == 'default':
-            check_temp_folder_and_clean(iarlsnes_setting_dl_cache) #Check temp folder cache size and clean if needed
+            check_temp_folder_and_clean(iarlnes_setting_dl_cache) #Check temp folder cache size and clean if needed
 
         print 'Downloading Selected ROM'
         # print rom_emu_command
@@ -623,9 +623,9 @@ def download_rom_only(rom_fname,rom_sfname, rom_save_fname, rom_save_sfname, rom
                 elif rom_postdlaction == 'unzip_dosbox_update_conf_file':
                     zip_success1, new_rom_fname = unzip_dosbox_update_conf_file(current_save_fname)
                 elif rom_postdlaction == 'convert_chd_bin':
-                    chd_success, new_rom_fname = convert_chd_bin(current_save_fname,iarlsnes_setting_chdman_path)
+                    chd_success, new_rom_fname = convert_chd_bin(current_save_fname,iarlnes_setting_chdman_path)
                 elif rom_postdlaction == 'convert_chd_cue':
-                    chd_success, new_rom_fname = convert_chd_cue(current_save_fname,iarlsnes_setting_chdman_path)
+                    chd_success, new_rom_fname = convert_chd_cue(current_save_fname,iarlnes_setting_chdman_path)
                 elif rom_postdlaction == 'lynx_header_fix':
                     fix_success, new_rom_fname = lynx_header_fix(current_save_fname)
                 elif 'rename_rom_postdl' in rom_postdlaction:
@@ -647,9 +647,9 @@ def download_rom_only(rom_fname,rom_sfname, rom_save_fname, rom_save_sfname, rom
                     elif rom_postdlaction == 'unzip_dosbox_update_conf_file':
                         zip_success1, new_rom_fname = unzip_dosbox_update_conf_file(current_save_fname)
                     elif 'convert_chd_bin' in rom_postdlaction_1:
-                        chd_success, new_rom_fname = convert_chd_bin(current_save_fname,iarlsnes_setting_chdman_path)
+                        chd_success, new_rom_fname = convert_chd_bin(current_save_fname,iarlnes_setting_chdman_path)
                     elif 'convert_chd_cue' in rom_postdlaction_1:
-                        chd_success, new_rom_fname = convert_chd_cue(current_save_fname,iarlsnes_setting_chdman_path)
+                        chd_success, new_rom_fname = convert_chd_cue(current_save_fname,iarlnes_setting_chdman_path)
                     elif 'lynx_header_fix' in rom_postdlaction_1:
                         fix_success, new_rom_fname = lynx_header_fix(current_save_fname)
                     elif 'rename_rom_postdl' in rom_postdlaction_1:
@@ -704,9 +704,9 @@ def download_and_launch_rom(romwindow,rom_fname,rom_sfname, rom_save_fname, rom_
             if romwindow is not None:
                 romwindow.closeDialog()
             
-            if 'Android' in iarlsnes_setting_operating_system:
+            if 'Android' in iarlnes_setting_operating_system:
                 #Suspend audio for HDMI audio purposes on some systems
-                print 'iarlsnes:  Android External Command Called'
+                print 'iarlnes:  Android External Command Called'
                 xbmc.audioSuspend()
                 xbmc.enableNavSounds(False) 
                 xbmc.sleep(500) #This pause seems to help... I'm not really sure why
@@ -725,7 +725,7 @@ def download_and_launch_rom(romwindow,rom_fname,rom_sfname, rom_save_fname, rom_
                 xbmc.enableNavSounds(True)
 
         else:
-            print 'iarlsnes Error:  No external launch command is defined'
+            print 'iarlnes Error:  No external launch command is defined'
 
     else: #Otherwise use retroplayer
         download_success, new_rom_fname, new_rom_sfname = download_rom_only(rom_fname,rom_sfname, rom_save_fname, rom_save_sfname, rom_dl_path, rom_postdlaction, rom_emu_command, rom_filesize)
@@ -802,7 +802,7 @@ class ROMWindow(xbmcgui.WindowXMLDialog):
     def onInit(self):
         # Put your List Populating code/ and GUI startup stuff here
 
-        set_iarlsnes_window_properties(self.emu_name) #Set these properties again in case the list was cached
+        set_iarlnes_window_properties(self.emu_name) #Set these properties again in case the list was cached
 
         self.logo_art = self.getControl(103) #Logo
         self.plot_box = self.getControl(104) #Plot
@@ -865,21 +865,21 @@ class ROMWindow(xbmcgui.WindowXMLDialog):
         right_art_found = False
         for entries in self.boxart:
             left_art_found = True
-            self.left_art2.addItem(xbmcgui.ListItem(label2=xbmcgui.Window(10000).getProperty('iarlsnes.current_theme'), thumbnailImage=entries)) #Add boxart to the left image slideshow
+            self.left_art2.addItem(xbmcgui.ListItem(label2=xbmcgui.Window(10000).getProperty('iarlnes.current_theme'), thumbnailImage=entries)) #Add boxart to the left image slideshow
 
         for entries in self.fanart:
             right_art_found = True
-            self.right_art2.addItem(xbmcgui.ListItem(label2=xbmcgui.Window(10000).getProperty('iarlsnes.current_theme'), thumbnailImage=entries)) #Add fanart to the right image slideshow
+            self.right_art2.addItem(xbmcgui.ListItem(label2=xbmcgui.Window(10000).getProperty('iarlnes.current_theme'), thumbnailImage=entries)) #Add fanart to the right image slideshow
 
         for entries in self.snapshot:
             right_art_found = True
-            self.right_art2.addItem(xbmcgui.ListItem(label2=xbmcgui.Window(10000).getProperty('iarlsnes.current_theme'), thumbnailImage=entries)) #Add snapshots to the right image slideshow
+            self.right_art2.addItem(xbmcgui.ListItem(label2=xbmcgui.Window(10000).getProperty('iarlnes.current_theme'), thumbnailImage=entries)) #Add snapshots to the right image slideshow
 
         if not right_art_found:
-            self.right_art2.addItem(xbmcgui.ListItem(label2=xbmcgui.Window(10000).getProperty('iarlsnes.current_theme'), thumbnailImage=self.emu_fanart)) #If no fanart is found, make it the current emulator fanart
+            self.right_art2.addItem(xbmcgui.ListItem(label2=xbmcgui.Window(10000).getProperty('iarlnes.current_theme'), thumbnailImage=self.emu_fanart)) #If no fanart is found, make it the current emulator fanart
 
         if not left_art_found:
-            self.left_art2.addItem(xbmcgui.ListItem(label2=xbmcgui.Window(10000).getProperty('iarlsnes.current_theme'), thumbnailImage=getMediaFilePath() + xbmcgui.Window(10000).getProperty('iarlsnes.default_thumb'))) #If no boxart is found, make it the default box
+            self.left_art2.addItem(xbmcgui.ListItem(label2=xbmcgui.Window(10000).getProperty('iarlnes.current_theme'), thumbnailImage=getMediaFilePath() + xbmcgui.Window(10000).getProperty('iarlnes.default_thumb'))) #If no boxart is found, make it the default box
 
 
     def onAction(self, action):
@@ -978,7 +978,7 @@ class SearchWindow(xbmcgui.WindowXMLDialog):
         self.as_group_control.setVisible(False)
         self.control_id_button_3.setVisible(False)
         self.control_id_button_4.setVisible(True)
-        xbmcgui.Window(10000).setProperty('iarlsnes.advanced_search','False') #Turn off AS by default
+        xbmcgui.Window(10000).setProperty('iarlnes.advanced_search','False') #Turn off AS by default
 
         # translate buttons
         self.control_id_button_1.setLabel('Select All')
@@ -1024,13 +1024,13 @@ class SearchWindow(xbmcgui.WindowXMLDialog):
             self.as_group_control.setVisible(False)
             self.control_id_button_3.setVisible(False)
             self.control_id_button_4.setVisible(True)
-            xbmcgui.Window(10000).setProperty('iarlsnes.advanced_search','False') #Turn off AS
+            xbmcgui.Window(10000).setProperty('iarlnes.advanced_search','False') #Turn off AS
 
         if controlId == 3004:
             self.as_group_control.setVisible(True)
             self.control_id_button_3.setVisible(True)
             self.control_id_button_4.setVisible(False)
-            xbmcgui.Window(10000).setProperty('iarlsnes.advanced_search','True') #Turn off AS
+            xbmcgui.Window(10000).setProperty('iarlnes.advanced_search','True') #Turn off AS
 
         if controlId == 3008:
             self.closeDialog()
@@ -1058,7 +1058,7 @@ class SearchWindow(xbmcgui.WindowXMLDialog):
             if len(self.search_box.getText())>0:
                 current_search_term = self.search_box.getText()
 
-            if xbmcgui.Window(10000).getProperty('iarlsnes.advanced_search') == 'True':
+            if xbmcgui.Window(10000).getProperty('iarlnes.advanced_search') == 'True':
                 if len(self.genre_id.getText())>0:
                     current_genre = self.genre_id.getText()
                 if len(self.nplayers_id.getText())>0:
@@ -1082,11 +1082,11 @@ class SearchWindow(xbmcgui.WindowXMLDialog):
                 ret1 = 0
 
             if ret1 == 0:
-                print 'iarlsnes:  Starting Search'
+                print 'iarlnes:  Starting Search'
                 #Not sure why plugin.redirect doesnt work here.  It for some reason will not pass kwargs?
-                # search_url = plugin.url_for('search_roms_results', search_term=current_search_term,include_archives=include_text_arg, adv_search=xbmcgui.Window(10000).getProperty('iarlsnes.advanced_search'),genre=current_genre,nplayers=current_nplayers,datefrom=current_date_from,dateto=current_date_to,studio=current_studio,region=current_region)
+                # search_url = plugin.url_for('search_roms_results', search_term=current_search_term,include_archives=include_text_arg, adv_search=xbmcgui.Window(10000).getProperty('iarlnes.advanced_search'),genre=current_genre,nplayers=current_nplayers,datefrom=current_date_from,dateto=current_date_to,studio=current_studio,region=current_region)
                 self.closeDialog()
-                search_roms_results(current_search_term,include_archives=include_text_arg, adv_search=xbmcgui.Window(10000).getProperty('iarlsnes.advanced_search'),genre=current_genre,nplayers=current_nplayers,datefrom=current_date_from,dateto=current_date_to,studio=current_studio,region=current_region)
+                search_roms_results(current_search_term,include_archives=include_text_arg, adv_search=xbmcgui.Window(10000).getProperty('iarlnes.advanced_search'),genre=current_genre,nplayers=current_nplayers,datefrom=current_date_from,dateto=current_date_to,studio=current_studio,region=current_region)
                 # plugin.redirect(search_url)
             else:
                 pass
