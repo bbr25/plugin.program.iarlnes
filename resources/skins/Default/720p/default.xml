@@ -15,7 +15,7 @@
             <posy>0</posy>
             <width>1280</width>
             <height>720</height>
-            <texture>$INFO[Window(HOME).Property(iarl.bg_color)]</texture>
+            <texture>$INFO[Window(HOME).Property(iarlsnes.bg_color)]</texture>
             <ondown>3001</ondown>
             <onup>3001</onup>
             <onleft>3001</onleft>
@@ -104,7 +104,7 @@
             <posy>0</posy>
             <width>1280</width>
             <height>72</height>
-            <texture>$INFO[Window(HOME).Property(iarl.header_color)]</texture>
+            <texture>$INFO[Window(HOME).Property(iarlsnes.header_color)]</texture>
         </control>
         <control type="image" id=103>
             <description>Logo Image</description>
